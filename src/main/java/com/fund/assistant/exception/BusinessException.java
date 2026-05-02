@@ -8,7 +8,7 @@ import lombok.Getter;
  * 例如：用户名已存在、密码错误、基金已添加、数据不存在等
  * 区别于系统异常（空指针、数据库报错等）
  */
-@Getter  // Lombok：自动生成 getMessage() 方法
+@Getter
 public class BusinessException extends RuntimeException {
 
     // 异常提示信息（给用户看的友好提示）
