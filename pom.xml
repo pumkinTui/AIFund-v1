@@ -110,6 +110,47 @@
             <artifactId>pagehelper-spring-boot-starter</artifactId>
             <version>2.1.1</version>
         </dependency>
+        <!-- Hutool 万能工具包 -->
+        <dependency>
+            <groupId>cn.hutool</groupId>
+            <artifactId>hutool-all</artifactId>
+            <version>5.8.29</version>
+        </dependency>
+        <!-- JWT 全套依赖 作用：生成Token、解析Token、登录身份认证 -->
+
+        <!-- 1. jjwt-api：JWT 核心接口与抽象类
+             开发时编写代码要引入这个包的类和方法，是我们直接使用的API层 -->
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt-api</artifactId>
+            <version>0.11.5</version>
+        </dependency>
+
+        <!-- 2. jjwt-impl：JWT 底层具体实现包
+             真正负责JWT加密、解密、签名校验的底层实现
+             scope=runtime：只在项目运行时生效，开发写代码不需要直接依赖 -->
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt-impl</artifactId>
+            <version>0.11.5</version>
+            <scope>runtime</scope>
+        </dependency>
+
+        <!-- 3. jjwt-jackson：JWT 整合Jackson JSON序列化
+             负责把用户信息、载荷对象转为JSON，塞进JWT令牌里
+             scope=runtime：运行时自动做JSON序列化/反序列化，开发无需手动调用 -->
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt-jackson</artifactId>
+            <version>0.11.5</version>
+            <scope>runtime</scope>
+        </dependency>
+        <!-- Spring Security 加密模块，只取BCrypt -->
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-crypto</artifactId>
+            <version>5.7.10</version>
+        </dependency>
     </dependencies>
 
     <!-- SpringBoot 依赖版本管理，统一版本号 -->
@@ -121,12 +162,6 @@
                 <version>${spring-boot.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
-            </dependency>
-            <!-- Hutool 万能工具包 -->
-            <dependency>
-                <groupId>cn.hutool</groupId>
-                <artifactId>hutool-all</artifactId>
-                <version>5.8.29</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
