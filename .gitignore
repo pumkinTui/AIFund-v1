@@ -1,0 +1,135 @@
+# HELP.md 保留不忽略（你明确要求要推送）
+!HELP.md
+
+# Maven 构建文件
+target/
+!.mvn/wrapper/maven-wrapper.jar
+!**/src/main/**/target/
+!**/src/test/**/target/
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+dependency-reduced-pom.xml
+buildNumber.properties
+.mvn/timing.properties
+.mvn/wrapper/maven-wrapper.jar
+
+# STS / Eclipse
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+
+# IntelliJ IDEA
+.idea
+*.iws
+*.iml
+*.ipr
+
+# NetBeans
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+build/
+!**/src/main/**/build/
+!**/src/test/**/build/
+
+# VS Code
+.vscode/
+
+# 【关键补充】敏感配置文件（绝对不要推送到GitHub）
+application.yml
+application.yaml
+application-dev.yml
+application-prod.yml
+application-test.yml
+*.properties
+config.properties
+
+# 【关键补充】日志文件
+logs/
+*.log
+log/
+
+# 临时文件# HELP.md 保留不忽略（你明确要求要推送）
+      #!HELP.md
+      #
+      ## Maven 构建文件
+      #target/
+      #!.mvn/wrapper/maven-wrapper.jar
+      #!**/src/main/**/target/
+      #!**/src/test/**/target/
+      #pom.xml.tag
+      #pom.xml.releaseBackup
+      #pom.xml.versionsBackup
+      #pom.xml.next
+      #release.properties
+      #dependency-reduced-pom.xml
+      #buildNumber.properties
+      #.mvn/timing.properties
+      #.mvn/wrapper/maven-wrapper.jar
+      #
+      ## STS / Eclipse
+      #.apt_generated
+      #.classpath
+      #.factorypath
+      #.project
+      #.settings
+      #.springBeans
+      #.sts4-cache
+      #
+      ## IntelliJ IDEA
+      #.idea
+      #*.iws
+      #*.iml
+      #*.ipr
+      #
+      ## NetBeans
+      #/nbproject/private/
+      #/nbbuild/
+      #/dist/
+      #/nbdist/
+      #/.nb-gradle/
+      #build/
+      #!**/src/main/**/build/
+      #!**/src/test/**/build/
+      #
+      ## VS Code
+      #.vscode/
+      #
+      ## 【关键补充】敏感配置文件（绝对不要推送到GitHub）
+      #application.yml
+      #application.yaml
+      #application-dev.yml
+      #application-prod.yml
+      #application-test.yml
+      #*.properties
+      #config.properties
+      #
+      ## 【关键补充】日志文件
+      #logs/
+      #*.log
+      #log/
+      #
+      ## 临时文件
+      #*.tmp
+      #*.bak
+      #*.swp
+      #*~.nib
+      #local.properties
+      #.DS_Store
+      #Thumbs.db
+*.tmp
+*.bak
+*.swp
+*~.nib
+local.properties
+.DS_Store
+Thumbs.db

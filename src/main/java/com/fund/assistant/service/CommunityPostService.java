@@ -1,0 +1,16 @@
+package com.fund.assistant.service;
+
+import com.fund.assistant.entity.CommunityPost;
+import com.baomidou.mybatisplus.extension.service.IService;
+
+/**
+ * <p>
+ * 论坛帖子表 服务类
+ * </p>
+ *
+ * @author jhShen
+ * @since 2026-05-02
+ */
+public interface CommunityPostService extends IService<CommunityPost> {
+
+}
