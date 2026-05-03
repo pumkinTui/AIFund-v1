@@ -30,7 +30,10 @@ public class WebMvcConfig implements WebMvcConfigurer {
                         "/user/register",        // 用户注册
                         "/user/login",           // 用户登录
                         "/user/findPassword",    // 找回密码
-                        "/fund/base/list",       // 基金基础列表查询
+                        "/fund/list",
+                        "/fund/detail/**",
+                        "/fund/net-value/**",
+                        "/fund/stock-hold/**",
                         "/market/**",            // 市场行情（全部放行）
                         "/doc.html",             // Knife4j 接口文档
                         "/swagger-ui/**",        // Swagger 文档
