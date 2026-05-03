@@ -12,5 +12,9 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * @since 2026-05-02
  */
 public interface UserFollowRelationService extends IService<UserFollowRelation> {
-
+    /**
+     * 用户关注取关
+     * @param followedUserId
+     */
+    void followOrUnfollow(Long followedUserId);
 }

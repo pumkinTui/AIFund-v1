@@ -2,6 +2,7 @@ package com.fund.assistant.controller;
 
 import com.fund.assistant.dto.UserLoginDTO;
 import com.fund.assistant.dto.UserRegisterDTO;
+import com.fund.assistant.dto.UserUpdateDTO;
 import com.fund.assistant.service.UserInfoService;
 import com.fund.assistant.util.Result;
 import com.fund.assistant.vo.UserInfoVO;
@@ -40,5 +41,13 @@ public class UserInfoController {
     public Result<UserInfoVO> getCurrentUserInfo() {
         UserInfoVO userInfo = userInfoService.getCurrentUserInfo();
         return Result.success(userInfo);
+    }
+
+    // 修改个人资料
+    @PostMapping("/update/info")
+    public Result<Void> updateUserInfo(@Validated @RequestBody UserUpdateDTO dto) {
+        log.info("前端传入的修改信息：{}", dto);
+        userInfoService.updateUserInfo(dto);
+        return Result.success();
     }
 }

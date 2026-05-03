@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.fund.assistant.dto.UserDTO;
 import com.fund.assistant.dto.UserLoginDTO;
 import com.fund.assistant.dto.UserRegisterDTO;
+import com.fund.assistant.dto.UserUpdateDTO;
 import com.fund.assistant.entity.UserInfo;
 import com.fund.assistant.exception.BusinessException;
 import com.fund.assistant.mapper.UserInfoMapper;
@@ -13,6 +14,7 @@ import com.fund.assistant.util.JwtUtil;
 import com.fund.assistant.util.UserContext;
 import com.fund.assistant.vo.UserInfoVO;
 import com.fund.assistant.vo.UserLoginVO;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -30,6 +32,7 @@ import java.util.UUID;
  * @since 2026-05-02
  */
 @Service
+@Slf4j
 public class UserInfoServiceImpl extends ServiceImpl<UserInfoMapper, UserInfo> implements UserInfoService {
 
     // 注入密码加密器
@@ -38,6 +41,9 @@ public class UserInfoServiceImpl extends ServiceImpl<UserInfoMapper, UserInfo> i
 
     @Autowired
     private JwtUtil jwtUtil;
+
+    @Autowired
+    private UserInfoMapper userInfoMapper;
 
     /**
      * 用户注册
@@ -121,5 +127,20 @@ public class UserInfoServiceImpl extends ServiceImpl<UserInfoMapper, UserInfo> i
         BeanUtils.copyProperties(userInfo,userInfoVO);
 
         return userInfoVO;
+    }
+
+    /**
+     * 用户信息的修改
+     * @param dto
+     */
+    @Override
+    public void updateUserInfo(UserUpdateDTO dto) {
+        UserInfo user = new UserInfo();
+        BeanUtils.copyProperties(dto, user);
+        user.setId(UserContext.getUserId());
+        log.info("拷贝后的实体类：holdPrivacy={}, operatePrivacy={}",
+                user.getHoldPrivacy(), user.getOperatePrivacy());
+
+        userInfoMapper.updateUserInfoById(user); // 调用万能SQL
     }
 }

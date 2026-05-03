@@ -2,6 +2,7 @@ package com.fund.assistant.service;
 
 import com.fund.assistant.dto.UserLoginDTO;
 import com.fund.assistant.dto.UserRegisterDTO;
+import com.fund.assistant.dto.UserUpdateDTO;
 import com.fund.assistant.entity.UserInfo;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.fund.assistant.vo.UserInfoVO;
@@ -33,4 +34,10 @@ public interface UserInfoService extends IService<UserInfo> {
      * @return
      */
     UserInfoVO getCurrentUserInfo();
+
+    /**
+     * 用户信息的修改
+     * @param dto
+     */
+    void updateUserInfo(UserUpdateDTO dto);
 }

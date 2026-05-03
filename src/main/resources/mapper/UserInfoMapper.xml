@@ -1,5 +1,63 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
 <mapper namespace="com.fund.assistant.mapper.UserInfoMapper">
+    <!-- 用途：所有用户信息修改（资料、密码、密保、隐私、计数） -->
+    <!-- 特性：自动忽略 null / 空字符串，只更新传入的字段 -->
+    <update id="updateUserInfoById">
+        UPDATE user_info
+        <set>
+            <!-- 基础资料 -->
+            <if test="user.nickname != null and user.nickname != ''">
+                nickname = #{user.nickname},
+            </if>
+            <if test="user.avatar != null and user.avatar != ''">
+                avatar = #{user.avatar},
+            </if>
+            <if test="user.signature != null and user.signature != ''">
+                signature = #{user.signature},
+            </if>
+
+            <!-- 隐私设置 -->
+            <if test="user.holdPrivacy != null">
+                hold_privacy = #{user.holdPrivacy},
+            </if>
+            <if test="user.operatePrivacy != null">
+                operate_privacy = #{user.operatePrivacy},
+            </if>
+
+            <!-- 密码 & 密保 -->
+            <if test="user.password != null and user.password != ''">
+                password = #{user.password},
+            </if>
+            <if test="user.securityQuestion != null and user.securityQuestion != ''">
+                security_question = #{user.securityQuestion},
+            </if>
+            <if test="user.securityAnswer != null and user.securityAnswer != ''">
+                security_answer = #{user.securityAnswer},
+            </if>
+
+            <!-- 计数字段（关注/粉丝/获赞） -->
+            <if test="user.followCount != null">
+                follow_count = #{user.followCount},
+            </if>
+            <if test="user.fansCount != null">
+                fans_count = #{user.fansCount},
+            </if>
+            <if test="user.likeTotal != null">
+                like_total = #{user.likeTotal},
+            </if>
+
+            <!-- 状态字段 -->
+            <if test="user.delFlag != null">
+                del_flag = #{user.delFlag},
+            </if>
+
+            <!-- 自动更新时间（必选） -->
+            update_time = NOW()
+        </set>
+        WHERE id = #{user.id}
+    </update>
 
 </mapper>
