@@ -60,6 +60,7 @@ public class UserFundHoldServiceImpl extends ServiceImpl<UserFundHoldMapper, Use
         // 1. 检查基金是否存在，并获取最新净值
         LambdaQueryWrapper<FundBaseInfo> fundWrapper = new LambdaQueryWrapper<>();
         fundWrapper.eq(FundBaseInfo::getFundCode, dto.getFundCode());
+
         FundBaseInfo fund = fundBaseInfoMapper.selectOne(fundWrapper);
         if (fund == null) {
             throw new BusinessException("基金不存在");
@@ -96,6 +97,7 @@ public class UserFundHoldServiceImpl extends ServiceImpl<UserFundHoldMapper, Use
         LambdaQueryWrapper<UserFundHold> holdWrapper = new LambdaQueryWrapper<>();
         holdWrapper.eq(UserFundHold::getUserId, userId);
         holdWrapper.eq(UserFundHold::getFundCode, dto.getFundCode());
+        holdWrapper.eq(UserFundHold::getGroupId, groupId);
         UserFundHold existHold = this.getOne(holdWrapper);
 
         if (existHold != null) {
@@ -121,7 +123,7 @@ public class UserFundHoldServiceImpl extends ServiceImpl<UserFundHoldMapper, Use
             this.save(newHold);
         }
 
-        // 5. 生成交易记录（100%适配你的表结构）
+        // 5. 生成交易记录
         FundTradeRecord tradeRecord = new FundTradeRecord();
         tradeRecord.setUserId(userId);
         tradeRecord.setFundCode(dto.getFundCode());
@@ -165,7 +167,7 @@ public class UserFundHoldServiceImpl extends ServiceImpl<UserFundHoldMapper, Use
         }
         BigDecimal latestNetValue = fund.getLatestNetValue();
 
-        // 4. 计算赎回金额和手续费（适配charge_rate 和 charge_fee）
+        // 4. 计算赎回金额和手续费（charge_rate 和 charge_fee）
         // 赎回金额 = 卖出份额 * 最新净值
         BigDecimal redeemAmount = dto.getSellShares().multiply(latestNetValue).setScale(SCALE, ROUNDING_MODE);
         // 交易费率
