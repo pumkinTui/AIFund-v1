@@ -319,28 +319,24 @@ public class FundTradeRecordServiceImpl extends ServiceImpl<FundTradeRecordMappe
         vo.setFundShortName(fund.getFundShortName());
 
         // 基础持仓数据
-        //持有份额
         BigDecimal holdShares = hold != null ? hold.getHoldShares() : BigDecimal.ZERO;
-        //持仓总成本
         BigDecimal totalCostAmount = hold != null ? hold.getTotalCostAmount() : BigDecimal.ZERO;
         vo.setHoldShares(holdShares);
         vo.setTotalCostAmount(totalCostAmount);
 
         // 计算累计卖出回款、累计手续费、已实现收益
-        // 累计卖出回款 + 现金分红
-        BigDecimal totalSellAmount = BigDecimal.ZERO;
-        // 累计总手续费
-        BigDecimal totalChargeFee = BigDecimal.ZERO;
-        // 累计买入总投入
-        BigDecimal totalAddAmount = BigDecimal.ZERO;
+        BigDecimal totalSellAmount = BigDecimal.ZERO; // 累计卖出回款 + 现金分红
+        BigDecimal totalChargeFee = BigDecimal.ZERO; // 累计总手续费
+        BigDecimal totalAddAmount = BigDecimal.ZERO; // 【修复】累计净投入（买入+红利再投资 - 手续费）
 
         for (FundTradeRecord record : tradeList) {
             // 1. 累加所有手续费
             totalChargeFee = totalChargeFee.add(record.getChargeFee());
 
-            // 2. 买入 + 红利再投资 → 算总投入
+            // 2. 买入 + 红利再投资 → 算净投入（交易金额 - 手续费）
             if (record.getTradeType() == TRADE_TYPE_ADD || record.getTradeType() == TRADE_TYPE_DIVIDEND_REINVEST) {
-                totalAddAmount = totalAddAmount.add(record.getTradeAmount());
+                BigDecimal netAmount = record.getTradeAmount().subtract(record.getChargeFee());
+                totalAddAmount = totalAddAmount.add(netAmount);
             }
 
             // 3. 卖出 + 现金分红 → 算总回款
@@ -353,26 +349,20 @@ public class FundTradeRecordServiceImpl extends ServiceImpl<FundTradeRecordMappe
         vo.setTotalChargeFee(totalChargeFee);
 
         // 计算当前市值、浮盈
-        // 当前市值 = 持有份额 × 最新净值
         BigDecimal currentMarketValue = holdShares.multiply(fund.getLatestNetValue()).setScale(SCALE, ROUNDING_MODE);
-        // 浮动盈亏 = 当前市值 − 持有部分的成本
         BigDecimal holdFloatProfit = currentMarketValue.subtract(totalCostAmount).setScale(SCALE, ROUNDING_MODE);
         vo.setCurrentMarketValue(currentMarketValue);
         vo.setHoldFloatProfit(holdFloatProfit);
 
         // 计算已实现收益、总收益
-        // 已实现收益 = 卖出回款 − (总投入 − 持仓成本)
         BigDecimal sellRealProfit = totalSellAmount.subtract(totalAddAmount.subtract(totalCostAmount)).setScale(SCALE, ROUNDING_MODE);
-        // 总收益 = 浮动盈亏 + 已实现收益
         BigDecimal totalProfitAmount = holdFloatProfit.add(sellRealProfit).setScale(SCALE, ROUNDING_MODE);
         vo.setSellRealProfit(sellRealProfit);
         vo.setTotalProfitAmount(totalProfitAmount);
 
-        // 计算总收益率
-        //总投入
+        // 计算总收益率（用净投入计算，更准确）
         BigDecimal totalInput = totalAddAmount;
         if (totalInput.compareTo(BigDecimal.ZERO) > 0) {
-            // 收益率 = 总收益 ÷ 总投入 × 100%
             BigDecimal totalProfitRate = totalProfitAmount.divide(totalInput, 4, ROUNDING_MODE).multiply(new BigDecimal("100")).setScale(2, ROUNDING_MODE);
             vo.setTotalProfitRate(totalProfitRate);
         } else {
