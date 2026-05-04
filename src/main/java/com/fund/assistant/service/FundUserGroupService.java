@@ -43,4 +43,17 @@ public interface FundUserGroupService extends IService<FundUserGroup> {
      * @return
      */
     Long getOrCreateDefaultFavoriteGroup(Long userId);
+
+    //下面是持仓分组
+    /**
+     * 创建持仓分组
+     */
+    Long createHoldGroup(GroupCreateDTO dto);
+
+    /**
+     * 查询当前用户所有持仓分组
+     */
+    List<UserFundGroupVO> getHoldGroupList();
+
+    Long getOrCreateDefaultHoldGroup(Long userId);
 }

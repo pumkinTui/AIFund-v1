@@ -60,4 +60,24 @@ public class FundUserGroupController {
         List<UserFundGroupVO> groupList = fundUserGroupService.getFavoriteGroupList();
         return Result.success(groupList);
     }
+
+    //下面是持仓分组
+    /**
+     * 创建持仓分组
+     */
+    @PostMapping("/hold/create")
+    public Result<Long> createHoldGroup(@Validated @RequestBody GroupCreateDTO dto) {
+        log.info("创建持仓分组信息为：{}",dto);
+        Long groupId = fundUserGroupService.createHoldGroup(dto);
+        return Result.success(groupId);
+    }
+
+    /**
+     * 查询当前用户所有持仓分组
+     */
+    @GetMapping("/hold/list")
+    public Result<List<UserFundGroupVO>> getHoldGroupList() {
+        List<UserFundGroupVO> groupList = fundUserGroupService.getHoldGroupList();
+        return Result.success(groupList);
+    }
 }
