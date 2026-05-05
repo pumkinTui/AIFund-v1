@@ -98,10 +98,16 @@ public class FundBaseInfo implements Serializable {
     private BigDecimal latestNetValue;
 
     /**
-     * 最新涨跌幅(%)
+     * 股票仓位比例(%)
      */
     @TableField("latest_change_rate")
     private BigDecimal latestChangeRate;
+
+    /**
+     * 最新涨跌幅(%)
+     */
+    @TableField("latest_change_rate")
+    private BigDecimal stockPositionRatio;
 
     /**
      * 创建时间
