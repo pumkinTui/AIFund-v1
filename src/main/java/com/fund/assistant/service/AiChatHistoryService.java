@@ -1,16 +1,16 @@
 package com.fund.assistant.service;
 
 import com.fund.assistant.entity.AiChatHistory;
+import com.fund.assistant.vo.AiChatSessionVO;
 import com.baomidou.mybatisplus.extension.service.IService;
 
-/**
- * <p>
- * AI对话历史记录表 服务类
- * </p>
- *
- * @author jhShen
- * @since 2026-05-02
- */
+import java.util.List;
+
 public interface AiChatHistoryService extends IService<AiChatHistory> {
 
+    List<AiChatSessionVO> getSessions(Long userId);
+
+    int deleteSession(Long userId, String sessionId);
+
+    int renameSession(Long userId, String sessionId, String sessionName);
 }

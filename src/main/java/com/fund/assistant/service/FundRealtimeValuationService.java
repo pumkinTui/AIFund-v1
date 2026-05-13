@@ -40,4 +40,9 @@ public interface FundRealtimeValuationService extends IService<FundRealtimeValua
      * 查询用户持仓基金最新估值列表
      */
     List<FundRealtimeValuationVO> getHoldFundValuationList();
+
+    /**
+     * 查询某只基金当天走势图数据（从 Redis 获取）
+     */
+    List<FundRealtimeValuationVO> getTimeline(String fundCode);
 }

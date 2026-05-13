@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.fund.assistant.dto.TradeQueryDTO;
 import com.fund.assistant.service.FundTradeRecordService;
 import com.fund.assistant.util.Result;
+import com.fund.assistant.util.UserContext;
 import com.fund.assistant.vo.FundHoldProfitVO;
 import com.fund.assistant.vo.TradeRecordVO;
 import lombok.extern.slf4j.Slf4j;
@@ -66,5 +67,15 @@ public class FundTradeRecordController {
     public Result<List<FundHoldProfitVO>> getAllHoldProfitList() {
         List<FundHoldProfitVO> profitList = fundTradeRecordService.getAllHoldProfitList();
         return Result.success(profitList);
+    }
+
+    /**
+     * 删除交易记录
+     */
+    @PostMapping("/delete/{tradeId}")
+    public Result<Void> deleteTradeRecord(@PathVariable Long tradeId) {
+        Long userId = UserContext.getUserId();
+        fundTradeRecordService.deleteTradeRecord(userId, tradeId);
+        return Result.success();
     }
 }

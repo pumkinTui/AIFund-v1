@@ -6,6 +6,8 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -20,6 +22,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @TableName("fund_realtime_valuation")
+@Data
 public class FundRealtimeValuation implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -69,4 +72,8 @@ public class FundRealtimeValuation implements Serializable {
      * 创建时间
      */
     private LocalDateTime createTime;
+    /**
+     * 更新时间
+     */
+    private LocalDateTime updateTime;
 }

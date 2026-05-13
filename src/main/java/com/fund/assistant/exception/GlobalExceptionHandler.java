@@ -7,7 +7,12 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-@RestControllerAdvice
+/**
+ * 全局异常处理器
+ * 统一捕获项目所有异常，统一返回标准 JSON 格式给前端
+ * 不让前端看到报错堆栈、不让系统直接500
+ */
+@RestControllerAdvice // 全局捕获异常 + 返回 JSON
 public class GlobalExceptionHandler {
 
     /**

@@ -1,7 +1,9 @@
 package com.fund.assistant.service;
 
+import com.fund.assistant.dto.FundBuyResultDTO;
 import com.fund.assistant.dto.FundHoldBuyDTO;
 import com.fund.assistant.dto.FundHoldSellDTO;
+import com.fund.assistant.entity.FundPendingTrade;
 import com.fund.assistant.entity.UserFundHold;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.fund.assistant.vo.UserFundHoldVO;
@@ -22,7 +24,7 @@ public interface UserFundHoldService extends IService<UserFundHold> {
     /**
      * 基金买入
      */
-    void buyFund(FundHoldBuyDTO dto);
+    FundBuyResultDTO buyFund(FundHoldBuyDTO dto);
 
     /**
      * 基金卖出
@@ -38,5 +40,10 @@ public interface UserFundHoldService extends IService<UserFundHold> {
      * 查询单只基金的持仓记录
      */
     UserFundHoldVO getHoldDetail(String fundCode);
+
+    /**
+     * 确认待确认交易（定时任务调用）
+     */
+    void confirmPendingTrade(FundPendingTrade trade);
 
 }

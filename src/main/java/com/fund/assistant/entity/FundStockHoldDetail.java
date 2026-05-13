@@ -9,9 +9,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import lombok.experimental.Accessors;
 
 /**
@@ -27,6 +25,8 @@ import lombok.experimental.Accessors;
 @Accessors(chain = true)
 @TableName("fund_stock_hold_detail")
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class FundStockHoldDetail implements Serializable {
 
     private static final long serialVersionUID = 1L;

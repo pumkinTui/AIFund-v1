@@ -17,5 +17,6 @@ public class FundBaseInfoVO {
     private String fundCompany;         // 基金公司
     private LocalDate establishDate;    // 成立日期
     private BigDecimal latestNetValue;  // 最新净值
-    private BigDecimal latestChangeRate;// 今日涨跌幅
+    private BigDecimal latestChangeRate;// 当日涨跌幅
+    private LocalDate netValueDate;     // 净值日期
 }

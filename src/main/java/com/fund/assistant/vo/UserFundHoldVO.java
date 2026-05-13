@@ -21,5 +21,6 @@ public class UserFundHoldVO {
     private BigDecimal currentMarketValue; // 当前市值
     private BigDecimal profitAmount; // 持仓收益
     private BigDecimal profitRate; // 持仓收益率
+    private BigDecimal dailyProfit; // 当日收益
     private LocalDateTime createTime;
 }

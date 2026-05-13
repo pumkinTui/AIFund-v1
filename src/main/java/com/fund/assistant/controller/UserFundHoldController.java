@@ -1,5 +1,6 @@
 package com.fund.assistant.controller;
 
+import com.fund.assistant.dto.FundBuyResultDTO;
 import com.fund.assistant.dto.FundHoldBuyDTO;
 import com.fund.assistant.dto.FundHoldSellDTO;
 import com.fund.assistant.service.UserFundHoldService;
@@ -32,10 +33,10 @@ public class UserFundHoldController {
      * 基金买入
      */
     @PostMapping("/buy")
-    public Result<Void> buyFund(@Validated @RequestBody FundHoldBuyDTO dto) {
+    public Result<FundBuyResultDTO> buyFund(@Validated @RequestBody FundHoldBuyDTO dto) {
         log.info("用户买入基金的信息：{}",dto);
-        userFundHoldService.buyFund(dto);
-        return Result.success();
+        FundBuyResultDTO result = userFundHoldService.buyFund(dto);
+        return Result.success(result);
     }
 
     /**

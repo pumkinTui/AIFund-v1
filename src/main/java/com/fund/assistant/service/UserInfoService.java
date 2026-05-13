@@ -1,5 +1,6 @@
 package com.fund.assistant.service;
 
+import com.fund.assistant.dto.UserFindPasswordDTO;
 import com.fund.assistant.dto.UserLoginDTO;
 import com.fund.assistant.dto.UserRegisterDTO;
 import com.fund.assistant.dto.UserUpdateDTO;
@@ -40,4 +41,19 @@ public interface UserInfoService extends IService<UserInfo> {
      * @param dto
      */
     void updateUserInfo(UserUpdateDTO dto);
+
+    /**
+     * 根据用户名查询密保问题
+     */
+    String getSecurityQuestion(String username);
+
+    /**
+     * 找回密码：验证密保答案后重置密码
+     */
+    void findPassword(UserFindPasswordDTO dto);
+
+    /**
+     * 修改密保：验证当前密码后更新密保问题和答案
+     */
+    void updateSecurity(String password, String securityQuestion, String securityAnswer);
 }

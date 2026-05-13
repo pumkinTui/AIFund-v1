@@ -61,7 +61,8 @@ public class LoginInterceptor implements HandlerInterceptor {
     }
 
     /**
-     * 往 HttpServletResponse 中写入 JSON 错误信息
+     * 工具方法：给前端返回 JSON 格式的错误信息
+     * 比如：请先登录、token过期
      */
     private void writeErrorResponse(HttpServletResponse response, int httpStatus, String message) throws IOException {
         response.setStatus(httpStatus);

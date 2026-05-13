@@ -70,4 +70,25 @@ public class FundRealtimeValuationController {
         fundRealtimeValuationService.batchCalculateAllFundValuation();
         return Result.success();
     }
+
+    /**
+     * 用户主动刷新某只基金的实时估值
+     * 不走缓存，强制重算，同时更新 Redis 中的走势数据
+     */
+    @PostMapping("/refresh/{fundCode}")
+    public Result<FundRealtimeValuationVO> refreshValuation(@PathVariable String fundCode) {
+        log.info("用户主动刷新基金估值：{}", fundCode);
+        FundRealtimeValuationVO vo = fundRealtimeValuationService.calculateFundRealtimeValuation(fundCode);
+        return Result.success(vo);
+    }
+
+    /**
+     * 获取某只基金当天走势图数据
+     * 从 Redis 读取全天每15分钟的估值快照，按时间正序返回
+     */
+    @GetMapping("/timeline/{fundCode}")
+    public Result<List<FundRealtimeValuationVO>> getTimeline(@PathVariable String fundCode) {
+        List<FundRealtimeValuationVO> list = fundRealtimeValuationService.getTimeline(fundCode);
+        return Result.success(list);
+    }
 }

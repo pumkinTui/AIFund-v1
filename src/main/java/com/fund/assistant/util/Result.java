@@ -18,8 +18,6 @@ public class Result<T> {
     // 响应数据
     private T data;
 
-    // ====================== 原来的用法完全保留 ======================
-
     /**
      * 成功（带数据）
      */
@@ -67,6 +65,17 @@ public class Result<T> {
     public static <T> Result<T> build(int code, String message, T data) {
         Result<T> result = new Result<>();
         result.setCode(code);
+        result.setMessage(message);
+        result.setData(data);
+        return result;
+    }
+
+    /**
+     * 成功（带数据 + 自定义消息）
+     */
+    public static <T> Result<T> success(T data, String message) {
+        Result<T> result = new Result<>();
+        result.setCode(200);
         result.setMessage(message);
         result.setData(data);
         return result;

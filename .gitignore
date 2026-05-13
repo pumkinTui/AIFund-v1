@@ -105,7 +105,7 @@ log/
       #.vscode/
       #
       ## 【关键补充】敏感配置文件（绝对不要推送到GitHub）
-      #application.yml
+      #application-dev.yml
       #application.yaml
       #application-dev.yml
       #application-prod.yml

@@ -1,0 +1,1 @@
+import{t as e}from"./api-0l2uN5Om.js";var t={getIndexRealtime(){return e.get(`/market/index/realtime`)},getSectorRanking(){return e.get(`/market/sector/ranking`)}};export{t};

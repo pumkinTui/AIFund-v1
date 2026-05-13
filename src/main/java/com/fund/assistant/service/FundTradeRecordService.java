@@ -38,4 +38,9 @@ public interface FundTradeRecordService extends IService<FundTradeRecord> {
      * 查询当前用户所有持仓基金的收益明细
      */
     List<FundHoldProfitVO> getAllHoldProfitList();
+
+    /**
+     * 删除交易记录（仅限本人）
+     */
+    void deleteTradeRecord(Long userId, Long tradeId);
 }

@@ -8,6 +8,7 @@ import com.fund.assistant.entity.FundBaseInfo;
 import com.fund.assistant.entity.FundTradeRecord;
 import com.fund.assistant.entity.FundUserGroup;
 import com.fund.assistant.entity.UserFundHold;
+import com.fund.assistant.exception.BusinessException;
 import com.fund.assistant.mapper.FundBaseInfoMapper;
 import com.fund.assistant.mapper.FundTradeRecordMapper;
 import com.fund.assistant.mapper.FundUserGroupMapper;
@@ -383,6 +384,15 @@ public class FundTradeRecordServiceImpl extends ServiceImpl<FundTradeRecordMappe
             case TRADE_TYPE_DIVIDEND_REINVEST -> "红利再投资";
             default -> "未知类型";
         };
+    }
+
+    @Override
+    public void deleteTradeRecord(Long userId, Long tradeId) {
+        FundTradeRecord record = this.getById(tradeId);
+        if (record == null || !record.getUserId().equals(userId)) {
+            throw new BusinessException("交易记录不存在");
+        }
+        this.removeById(tradeId);
     }
 
     /**

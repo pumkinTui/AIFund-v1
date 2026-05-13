@@ -7,6 +7,8 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
@@ -23,6 +25,7 @@ import lombok.experimental.Accessors;
 @Setter
 @Accessors(chain = true)
 @TableName("user_fund_hold")
+@Data
 public class UserFundHold implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -68,6 +71,12 @@ public class UserFundHold implements Serializable {
      */
     @TableField("total_cost_amount")
     private BigDecimal totalCostAmount;
+
+    /**
+     * 冻结份额（卖出待确认期间冻结）
+     */
+    @TableField("frozen_shares")
+    private BigDecimal frozenShares;
 
     /**
      * 创建时间

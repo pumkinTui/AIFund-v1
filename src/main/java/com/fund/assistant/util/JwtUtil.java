@@ -14,7 +14,7 @@ import java.util.Date;
  * 2. 解析 Token（获取用户ID）
  * 3. 校验 Token（是否合法、过期）
  */
-@Component // 交给Spring管理，全局可用
+@Component
 public class JwtUtil {
 
     /**
@@ -35,7 +35,7 @@ public class JwtUtil {
      */
     private final Key key = Keys.hmacShaKeyFor(SECRET_KEY.getBytes());
 
-    // ====================== 核心方法1：生成 Token ======================
+    // 生成 Token
     /**
      * 生成 JWT Token
      * @param userId    用户ID（存在Token里）
@@ -53,7 +53,7 @@ public class JwtUtil {
                 .compact(); // 压缩生成最终的Token字符串
     }
 
-    // ====================== 核心方法2：解析 Token，获取用户ID ======================
+    // 解析 Token，获取用户ID
     /**
      * 从 Token 中解析出 用户ID
      * @param token 前端传过来的Token
@@ -71,7 +71,7 @@ public class JwtUtil {
         return Long.valueOf(claims.getSubject());
     }
 
-    // ====================== 核心方法3：校验 Token 是否有效 ======================
+    //校验 Token 是否有效
     /**
      * 校验Token是否合法（未过期、未被篡改）
      * @param token 前端传过来的Token

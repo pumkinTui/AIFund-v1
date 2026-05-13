@@ -8,6 +8,8 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
@@ -24,6 +26,7 @@ import lombok.experimental.Accessors;
 @Setter
 @Accessors(chain = true)
 @TableName("fund_invest_plan")
+@Data
 public class FundInvestPlan implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -69,6 +72,12 @@ public class FundInvestPlan implements Serializable {
      */
     @TableField("invest_cycle")
     private Byte investCycle;
+
+    /**
+     * 定投日期：每周1-7 / 每月1-28
+     */
+    @TableField("cycle_day")
+    private Byte cycleDay;
 
     /**
      * 下次扣款日期

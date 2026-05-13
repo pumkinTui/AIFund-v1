@@ -1,18 +1,44 @@
 package com.fund.assistant.controller;
 
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.fund.assistant.service.AiChatHistoryService;
+import com.fund.assistant.util.Result;
+import com.fund.assistant.util.UserContext;
+import com.fund.assistant.vo.AiChatSessionVO;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
 
-/**
- * <p>
- * AI对话历史记录表 前端控制器
- * </p>
- *
- * @author jhShen
- * @since 2026-05-02
- */
+import java.util.List;
+
 @RestController
-@RequestMapping("/aiChatHistory")
+@RequestMapping("/ai/chat/sessions")
 public class AiChatHistoryController {
 
+    @Autowired
+    private AiChatHistoryService aiChatHistoryService;
+
+    @GetMapping
+    public Result<List<AiChatSessionVO>> list() {
+        Long userId = UserContext.getUserId();
+        List<AiChatSessionVO> sessions = aiChatHistoryService.getSessions(userId);
+        return Result.success(sessions);
+    }
+
+    @PostMapping("/create")
+    public Result<String> create() {
+        return Result.success(java.util.UUID.randomUUID().toString().replace("-", ""));
+    }
+
+    @PostMapping("/rename")
+    public Result<Void> rename(@RequestParam String sessionId, @RequestParam String sessionName) {
+        Long userId = UserContext.getUserId();
+        aiChatHistoryService.renameSession(userId, sessionId, sessionName);
+        return Result.success();
+    }
+
+    @PostMapping("/delete")
+    public Result<Void> delete(@RequestParam String sessionId) {
+        Long userId = UserContext.getUserId();
+        aiChatHistoryService.deleteSession(userId, sessionId);
+        return Result.success();
+    }
 }

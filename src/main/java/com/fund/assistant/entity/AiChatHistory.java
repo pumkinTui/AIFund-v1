@@ -45,6 +45,12 @@ public class AiChatHistory implements Serializable {
     private String sessionId;
 
     /**
+     * 会话名称，由第一条消息自动生成
+     */
+    @TableField("session_name")
+    private String sessionName;
+
+    /**
      * 用户提问内容
      */
     @TableField("question")
@@ -55,6 +61,12 @@ public class AiChatHistory implements Serializable {
      */
     @TableField("answer")
     private String answer;
+
+    /**
+     * 用户上传的图片URL
+     */
+    @TableField("image_url")
+    private String imageUrl;
 
     /**
      * 逻辑删除标记：0=正常 1=已删除

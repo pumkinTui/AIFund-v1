@@ -2,6 +2,7 @@ package com.fund.assistant.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.fund.assistant.dto.UserDTO;
+import com.fund.assistant.dto.UserFindPasswordDTO;
 import com.fund.assistant.dto.UserLoginDTO;
 import com.fund.assistant.dto.UserRegisterDTO;
 import com.fund.assistant.dto.UserUpdateDTO;
@@ -141,6 +142,54 @@ public class UserInfoServiceImpl extends ServiceImpl<UserInfoMapper, UserInfo> i
         log.info("拷贝后的实体类：holdPrivacy={}, operatePrivacy={}",
                 user.getHoldPrivacy(), user.getOperatePrivacy());
 
-        userInfoMapper.updateUserInfoById(user); // 调用万能SQL
+        userInfoMapper.updateUserInfoById(user);
+    }
+
+    /**
+     * 根据用户名查询密保问题
+     */
+    @Override
+    public String getSecurityQuestion(String username) {
+        LambdaQueryWrapper<UserInfo> wrapper = new LambdaQueryWrapper<>();
+        wrapper.eq(UserInfo::getUsername, username);
+        UserInfo user = this.getOne(wrapper);
+        if (user == null) {
+            throw new BusinessException("账号不存在");
+        }
+        return user.getSecurityQuestion();
+    }
+
+    /**
+     * 找回密码：验证密保答案后重置密码
+     */
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void findPassword(UserFindPasswordDTO dto) {
+        LambdaQueryWrapper<UserInfo> wrapper = new LambdaQueryWrapper<>();
+        wrapper.eq(UserInfo::getUsername, dto.getUsername());
+        UserInfo user = this.getOne(wrapper);
+        if (user == null) {
+            throw new BusinessException("账号不存在");
+        }
+        if (!passwordEncoder.matches(dto.getSecurityAnswer(), user.getSecurityAnswer())) {
+            throw new BusinessException("密保答案错误");
+        }
+        user.setPassword(passwordEncoder.encode(dto.getNewPassword()));
+        user.setId(user.getId());
+        userInfoMapper.updateUserInfoById(user);
+        log.info("用户 {} 密码重置成功", dto.getUsername());
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void updateSecurity(String password, String securityQuestion, String securityAnswer) {
+        Long userId = UserContext.getUserId();
+        UserInfo user = this.getById(userId);
+        if (user == null) throw new BusinessException("用户不存在");
+        if (!passwordEncoder.matches(password, user.getPassword())) throw new BusinessException("当前密码错误");
+        user.setSecurityQuestion(securityQuestion);
+        user.setSecurityAnswer(passwordEncoder.encode(securityAnswer));
+        userInfoMapper.updateUserInfoById(user);
+        log.info("用户 {} 密保修改成功", userId);
     }
 }

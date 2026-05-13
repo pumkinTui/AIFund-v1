@@ -18,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -37,7 +38,7 @@ public class UserFundFavoriteServiceImpl extends ServiceImpl<UserFundFavoriteMap
     private FundBaseInfoMapper fundBaseInfoMapper;
 
     @Autowired
-    private FundUserGroupService fundUserGroupService; // 这里改成注入新的分组 Service
+    private FundUserGroupService fundUserGroupService;
 
     /**
      * 添加自选
@@ -126,6 +127,15 @@ public class UserFundFavoriteServiceImpl extends ServiceImpl<UserFundFavoriteMap
 
         if (favoriteList.isEmpty()) {
             return List.of();
+        }
+
+        // 全部视图下去重：同一基金在多分组中只保留一条
+        if (groupId == null) {
+            Map<String, UserFundFavorite> dedup = new java.util.LinkedHashMap<>();
+            for (UserFundFavorite f : favoriteList) {
+                dedup.putIfAbsent(f.getFundCode(), f);
+            }
+            favoriteList = new ArrayList<>(dedup.values());
         }
 
         // 2. 批量查询基金信息

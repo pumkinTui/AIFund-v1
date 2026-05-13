@@ -21,4 +21,6 @@ public class FundHoldBuyDTO {
 
     @NotNull(message = "交易时点不能为空")
     private Byte tradeTimeFlag; // 1=15点前 2=15点后/非交易日
+
+    private Long relatedPlanId; // 关联定投计划ID（定投执行时传入）
 }

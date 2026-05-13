@@ -15,10 +15,14 @@ public class FundValuationSchedule {
 
     /**
      * 批量基金估值
-     * 交易时间：每分钟执行一次（周一到周五 9:30-15:00）
+     * 盘中的交易时间：每15分钟执行一次（周一到周五 9:30-15:00）
      */
-    @Scheduled(cron = "0 * 9-15 * * MON-FRI")
+    @Scheduled(cron = "0 */15 9-15 * * MON-FRI")
     public void batchValuation() {
+        if (!MarketTimeUtils.isAStockTradingTime()) {
+            log.info("非交易时段，跳过批量估值");
+            return;
+        }
         log.info("开始批量基金估值");
         try {
             fundRealtimeValuationService.batchCalculateAllFundValuation();

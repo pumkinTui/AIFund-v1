@@ -9,9 +9,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import lombok.experimental.Accessors;
 
 /**
@@ -27,6 +25,9 @@ import lombok.experimental.Accessors;
 @Accessors(chain = true)
 @TableName("fund_base_info")
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@Data
 public class FundBaseInfo implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -98,15 +99,15 @@ public class FundBaseInfo implements Serializable {
     private BigDecimal latestNetValue;
 
     /**
-     * 股票仓位比例(%)
+     * 最新涨跌幅(%)
      */
     @TableField("latest_change_rate")
     private BigDecimal latestChangeRate;
 
     /**
-     * 最新涨跌幅(%)
+     * 股票仓位比例(%)
      */
-    @TableField("latest_change_rate")
+    @TableField("stock_position_ratio")
     private BigDecimal stockPositionRatio;
 
     /**
